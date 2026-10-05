@@ -1,0 +1,329 @@
+{
+  "finished_at": "2026-10-05 09:55 UTC",
+  "seconds": 17.4,
+  "passed": 40,
+  "total": 40,
+  "machine": "x86_64 \u00b7 Python 3.14.4",
+  "results": [
+    {
+      "id": "nist-mlkem",
+      "category": "Standards",
+      "title": "ML-KEM-768 key generation matches NIST ACVP vectors",
+      "passed": true,
+      "detail": "25 of 25 official NIST test cases produce the expected public key",
+      "ms": 8
+    },
+    {
+      "id": "nist-mldsa",
+      "category": "Standards",
+      "title": "ML-DSA-65 key generation matches NIST ACVP vectors",
+      "passed": true,
+      "detail": "25 of 25 official NIST test cases produce the expected public key",
+      "ms": 12
+    },
+    {
+      "id": "lean-roundtrip",
+      "category": "Standards",
+      "title": "Lean handshake agrees on one session, 4,544 bytes",
+      "passed": true,
+      "detail": "2320 + 2224 = 4544 bytes, both sides derived session eabf1142",
+      "ms": 5
+    },
+    {
+      "id": "signed-roundtrip",
+      "category": "Standards",
+      "title": "Signed handshake agrees on one session, 8,978 bytes",
+      "passed": true,
+      "detail": "4549 + 4429 = 8978 bytes with ML-DSA-65 on both sides",
+      "ms": 8
+    },
+    {
+      "id": "fake-gateway",
+      "category": "Standards",
+      "title": "A fake gateway cannot prove itself to the board",
+      "passed": true,
+      "detail": "Board refused the welcome: gateway could not prove its enrolled keys",
+      "ms": 4
+    },
+    {
+      "id": "bit-flip",
+      "category": "Protocol attacks",
+      "title": "One flipped bit is refused; the next capsule still opens",
+      "passed": true,
+      "detail": "Capsule 2 refused on its Poly1305 tag; capsule 3 opened after the ratchet skipped key 2",
+      "ms": 4
+    },
+    {
+      "id": "replay-capsule",
+      "category": "Protocol attacks",
+      "title": "A recorded capsule sent again is refused",
+      "passed": true,
+      "detail": "Copy refused (replayed message: that reading's key is already gone); one reading stored",
+      "ms": 3
+    },
+    {
+      "id": "impostor",
+      "category": "Protocol attacks",
+      "title": "Impostor board with its own keys is refused at its first capsule",
+      "passed": true,
+      "detail": "Forged \u201ctank 97%\u201d refused; live session untouched",
+      "ms": 5
+    },
+    {
+      "id": "unlisted-board",
+      "category": "Protocol attacks",
+      "title": "A board missing from the roster is refused before key work",
+      "passed": true,
+      "detail": "A board calling itself tank-77 is not on the ward roster. It was refused before any key work.",
+      "ms": 2
+    },
+    {
+      "id": "hello-replay",
+      "category": "Protocol attacks",
+      "title": "A recorded hello gets the attacker nothing",
+      "passed": true,
+      "detail": "5 replays answered but none could seal a capsule; 5 refused by the handshake rate limit; live session untouched",
+      "ms": 7
+    },
+    {
+      "id": "stolen-board",
+      "category": "Protocol attacks",
+      "title": "Stolen board opens no earlier reading; re-key locks it out",
+      "passed": true,
+      "detail": "Opened 0 of 5 earlier capsules; read capsule [6] after the theft; re-key healed it",
+      "ms": 7
+    },
+    {
+      "id": "fuzz",
+      "category": "Protocol attacks",
+      "title": "2,400 mutated hellos and capsules: no crash, nothing forged",
+      "passed": true,
+      "detail": "0 crashes, 0 forged capsules accepted",
+      "ms": 218
+    },
+    {
+      "id": "stall-half-frame",
+      "category": "Transport faults",
+      "title": "A sender that stalls mid-frame is dropped and blocks nobody",
+      "passed": true,
+      "detail": "Real sensor served in 0.31 s while the staller hung; the staller was dropped by the 1 s body timeout",
+      "ms": 1008
+    },
+    {
+      "id": "power-cut",
+      "category": "Transport faults",
+      "title": "Power cut mid-session: board reconnects at once; dead link is cleaned up",
+      "passed": true,
+      "detail": "Rebooted board served in 0.20 s; the dead connection was closed by the 1 s idle timeout",
+      "ms": 2024
+    },
+    {
+      "id": "silent-connection",
+      "category": "Transport faults",
+      "title": "A connection that never says hello is closed",
+      "passed": true,
+      "detail": "Closed by the 0.8 s hello timeout and logged",
+      "ms": 1010
+    },
+    {
+      "id": "connection-flood",
+      "category": "Transport faults",
+      "title": "Connection flood is capped; the gateway recovers",
+      "passed": true,
+      "detail": "32 of 48 flood connections turned away at the cap of 16; afterwards the sensor delivered 3 readings",
+      "ms": 2116
+    },
+    {
+      "id": "oversize-frame",
+      "category": "Transport faults",
+      "title": "A frame claiming 10 MB is refused without allocating it",
+      "passed": true,
+      "detail": "Connection closed at once, nothing allocated; the gateway kept serving",
+      "ms": 508
+    },
+    {
+      "id": "garbage-hello",
+      "category": "Transport faults",
+      "title": "Garbage in place of a hello is refused",
+      "passed": true,
+      "detail": "Both refused with an explicit reject frame",
+      "ms": 511
+    },
+    {
+      "id": "outage-no-loss",
+      "category": "Delivery",
+      "title": "Radio outage longer than the idle timeout loses no reading",
+      "passed": true,
+      "detail": "40 of 40 readings stored, 35 of them buffered through a 1.8 s outage and a reconnect; no gap in tank time",
+      "ms": 4550
+    },
+    {
+      "id": "lost-receipt",
+      "category": "Delivery",
+      "title": "A reading resent after a lost receipt is stored once",
+      "passed": true,
+      "detail": "Resent copy recognised by its tank time, acknowledged again, stored once",
+      "ms": 10
+    },
+    {
+      "id": "gateway-restart",
+      "category": "Delivery",
+      "title": "Gateway restart keeps readings and the context the rules need",
+      "passed": true,
+      "detail": "Restored 6 readings; a 30-point jump right after the restart was still caught (SENSOR)",
+      "ms": 16
+    },
+    {
+      "id": "outbox-overflow",
+      "category": "Delivery",
+      "title": "A full board buffer drops the oldest readings and counts them",
+      "passed": true,
+      "detail": "Buffer of 10 through a 20-reading outage: 11 oldest readings dropped and counted, the newest 14 delivered in order; every reading delivered or accounted for",
+      "ms": 2018
+    },
+    {
+      "id": "clone-alarm",
+      "category": "Lifecycle",
+      "title": "A clone made from stolen keys raises the clone alarm",
+      "passed": true,
+      "detail": "Both boards proved genuine keys; the overlap raised the alarm, quarantined the tank, and marked the overlapping session's reading suspect",
+      "ms": 15
+    },
+    {
+      "id": "revoke",
+      "category": "Lifecycle",
+      "title": "A revoked board's handshakes are refused",
+      "passed": true,
+      "detail": "Refused: ward-tank-01 is revoked; re-enroll it on site",
+      "ms": 6
+    },
+    {
+      "id": "reenroll",
+      "category": "Lifecycle",
+      "title": "Re-enrolling on site restores the board and locks out stolen keys",
+      "passed": true,
+      "detail": "New keys accepted; the old keys could not even verify the gateway, and their capsule was refused",
+      "ms": 13
+    },
+    {
+      "id": "rate-limit",
+      "category": "Lifecycle",
+      "title": "Handshake rate limit caps a flood of hellos",
+      "passed": true,
+      "detail": "6 handshakes answered, 3 refused within the 60 s window",
+      "ms": 21
+    },
+    {
+      "id": "silence-watchdog",
+      "category": "Lifecycle",
+      "title": "A board that stops reporting is flagged, and cleared when it returns",
+      "passed": true,
+      "detail": "Flagged after 0.4 s of silence; cleared by the next reading",
+      "ms": 812
+    },
+    {
+      "id": "rekey-no-false-alarm",
+      "category": "Lifecycle",
+      "title": "Six re-keys in a row raise no false clone alarm",
+      "passed": true,
+      "detail": "6 sessions, 12 readings, no clone alarm",
+      "ms": 1866
+    },
+    {
+      "id": "stuck-sensor",
+      "category": "Sensor faults",
+      "title": "A frozen level sensor is detected",
+      "passed": true,
+      "detail": "SENSOR: Level sensor is stuck",
+      "ms": 0
+    },
+    {
+      "id": "no-echo",
+      "category": "Sensor faults",
+      "title": "No echo: level ignored, no tanker sent on it",
+      "passed": true,
+      "detail": "SENSOR: Level sensor gets no echo; no tanker sent on a blind reading",
+      "ms": 0
+    },
+    {
+      "id": "blind-zone",
+      "category": "Sensor faults",
+      "title": "Something inside the blind zone is reported, not believed",
+      "passed": true,
+      "detail": "SENSOR: Something is inside the sensor's blind zone",
+      "ms": 0
+    },
+    {
+      "id": "probes-dry",
+      "category": "Sensor faults",
+      "title": "Probes out of the water raise no false quality alarm",
+      "passed": true,
+      "detail": "TANKER: Send a water tanker (40 NTU in air ignored)",
+      "ms": 0
+    },
+    {
+      "id": "impossible-ph",
+      "category": "Sensor faults",
+      "title": "An impossible pH is a probe fault, not a water alarm",
+      "passed": true,
+      "detail": "pH probe fault; no false water-pH alarm",
+      "ms": 0
+    },
+    {
+      "id": "turbidity-debounce",
+      "category": "Sensor faults",
+      "title": "One turbidity spike waits for confirmation; two in a row act",
+      "passed": true,
+      "detail": "single 7 NTU \u2192 CHECK, two in a row \u2192 SAMPLE, 20 NTU at once \u2192 SAMPLE",
+      "ms": 0
+    },
+    {
+      "id": "plate-under-sensor",
+      "category": "Physics and water",
+      "title": "Plate under the sensor: genuine capsule, impossible level",
+      "passed": true,
+      "detail": "The level reads 99%, above the overflow pipe at 98%. Water cannot stand there; something is under the sensor.",
+      "ms": 0
+    },
+    {
+      "id": "rise-without-supply",
+      "category": "Physics and water",
+      "title": "Level rising with the main closed is not believed",
+      "passed": true,
+      "detail": "Level rose 30 points in 10 min; with the main closed it can rise at most 2. Treat the level as untrusted until someone checks the sensor.",
+      "ms": 0
+    },
+    {
+      "id": "is10500-bands",
+      "category": "Physics and water",
+      "title": "IS 10500 bands for turbidity, pH and TDS",
+      "passed": true,
+      "detail": "0.7 NTU LOG \u00b7 3 NTU CHECK \u00b7 pH 6.2 twice SAMPLE \u00b7 TDS 3,200 SAMPLE",
+      "ms": 0
+    },
+    {
+      "id": "night-leak",
+      "category": "Physics and water",
+      "title": "Minimum-night-flow test catches a leak between 01:00 and 04:00",
+      "passed": true,
+      "detail": "Leak from 20:10 flagged at 01:00",
+      "ms": 26
+    },
+    {
+      "id": "tanker-forecast",
+      "category": "Physics and water",
+      "title": "Tanker booked before the tank runs dry",
+      "passed": true,
+      "detail": "Tanker first requested at 19:20 with the tank at 46%",
+      "ms": 31
+    },
+    {
+      "id": "load-20-tanks",
+      "category": "Load",
+      "title": "Twenty tanks reporting at once: every reading stored, no cross-talk",
+      "passed": true,
+      "detail": "160 of 160 readings stored from 20 boards in 0.4 s; every tank has exactly its own 8",
+      "ms": 594
+    }
+  ]
+}

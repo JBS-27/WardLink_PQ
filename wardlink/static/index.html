@@ -16,6 +16,7 @@
       <p><span class="muted">Tank time</span> <span id="tank-clock">—</span> <span class="muted small">time-lapse, 1 reading = 10 min</span></p>
       <p><span class="muted">Office</span> <span id="clock">—</span></p>
       <p id="link-state" class="state wait">Sensor offline</p>
+      <p id="host-note" class="muted small"></p>
     </div>
   </header>
 
@@ -225,7 +226,7 @@
     <p class="narration" id="unit-narration">The sensor unit on the tank roof. Click any part to see what it is, how it works, and what it does for security.</p>
     <div class="layout unit-layout">
       <section class="panel machine-panel">
-        <svg id="unit" viewBox="0 0 960 620" role="img">
+        <svg id="unit-drawing" viewBox="0 0 960 620" role="img">
           <title>Exploded view of the sensor unit on the tank roof</title>
           <defs>
             <clipPath id="tank-clip"><rect x="24" y="384" width="912" height="220"/></clipPath>
@@ -327,23 +328,23 @@
             <path class="probe-body" d="M604 538 h32 v54 h-10 v-22 h-12 v22 h-10 z"/>
             <line id="u-beam" class="beam" x1="614" y1="580" x2="626" y2="580"/>
             <g id="u-particles"></g>
-            <text class="tag tiny probe-tag" x="642" y="566">TURBIDITY</text>
+            <text class="tag tiny probe-tag" x="620" y="601">TURBIDITY</text>
           </g>
           <g class="part" data-part="tds">
             <rect class="probe-body" x="682" y="528" width="16" height="50" rx="3"/>
             <line class="pin" x1="686" y1="578" x2="686" y2="592"/>
             <line class="pin" x1="694" y1="578" x2="694" y2="592"/>
             <path id="u-ac" class="ac" d="M686 586 l2 -3 l2 6 l2 -6 l2 3" opacity="0"/>
-            <text class="tag tiny probe-tag" x="704" y="560">TDS</text>
+            <text class="tag tiny probe-tag" x="690" y="601">TDS</text>
           </g>
           <g class="part" data-part="ph">
             <rect class="probe-body" x="752" y="520" width="16" height="56" rx="3"/>
             <circle id="u-bulb" class="bulb" cx="760" cy="584" r="9"/>
-            <text class="tag tiny probe-tag" x="774" y="556">pH</text>
+            <text class="tag tiny probe-tag" x="774" y="580">pH</text>
           </g>
           <g class="part" data-part="watertemp">
             <rect class="probe-body thin" x="826" y="530" width="8" height="48" rx="3"/>
-            <text class="tag tiny probe-tag" x="840" y="560">WATER °C</text>
+            <text class="tag tiny probe-tag" x="830" y="590">WATER °C</text>
           </g>
           <text id="u-level-tag" class="tag" x="40" y="596">water —</text>
         </svg>

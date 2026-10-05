@@ -1,0 +1,273 @@
+{
+  "generated_at": "2026-10-05 10:08 UTC",
+  "machine": "x86_64 laptop \u00b7 Python 3.14.4 \u00b7 OpenSSL 3.5.5 27 Jan 2026",
+  "runs": 40,
+  "links": [
+    {
+      "id": "wifi",
+      "name": "Wi-Fi",
+      "detail": "TCP segment 1,460 B",
+      "payload": 1460,
+      "sf": null
+    },
+    {
+      "id": "ble",
+      "name": "BLE 4.2+",
+      "detail": "244 B per notification",
+      "payload": 244,
+      "sf": null
+    },
+    {
+      "id": "lora7",
+      "name": "LoRaWAN IN865 SF7",
+      "detail": "242 B per frame",
+      "payload": 242,
+      "sf": 7
+    },
+    {
+      "id": "lora12",
+      "name": "LoRaWAN IN865 SF12",
+      "detail": "51 B per frame",
+      "payload": 51,
+      "sf": 12
+    }
+  ],
+  "protocols": [
+    {
+      "id": "tls-classic",
+      "name": "TLS 1.3 classical",
+      "detail": "X25519 + ECDSA P-256 certificates",
+      "pq_confidentiality": false,
+      "pq_authentication": false,
+      "up": 811,
+      "down": 874,
+      "total": 1685,
+      "ms": 1.091,
+      "breakdown": {
+        "signatures": 142,
+        "certificates": 835,
+        "key_exchange": 64,
+        "framing": 644
+      },
+      "radio": {
+        "wifi": {
+          "frames": 2,
+          "airtime_s": null
+        },
+        "ble": {
+          "frames": 8,
+          "airtime_s": null
+        },
+        "lora7": {
+          "frames": 8,
+          "airtime_s": 2.8
+        },
+        "lora12": {
+          "frames": 34,
+          "airtime_s": 93.3
+        }
+      }
+    },
+    {
+      "id": "tls-hybrid",
+      "name": "TLS 1.3 hybrid",
+      "detail": "X25519MLKEM768 + ECDSA P-256 certificates",
+      "pq_confidentiality": true,
+      "pq_authentication": false,
+      "up": 2048,
+      "down": 1962,
+      "total": 4010,
+      "ms": 2.28,
+      "breakdown": {
+        "signatures": 142,
+        "certificates": 837,
+        "key_exchange": 2368,
+        "framing": 663
+      },
+      "radio": {
+        "wifi": {
+          "frames": 4,
+          "airtime_s": null
+        },
+        "ble": {
+          "frames": 18,
+          "airtime_s": null
+        },
+        "lora7": {
+          "frames": 18,
+          "airtime_s": 6.7
+        },
+        "lora12": {
+          "frames": 80,
+          "airtime_s": 221.3
+        }
+      }
+    },
+    {
+      "id": "tls-pq",
+      "name": "TLS 1.3 post-quantum",
+      "detail": "X25519MLKEM768 + ML-DSA-65 certificates",
+      "pq_confidentiality": true,
+      "pq_authentication": true,
+      "up": 10442,
+      "down": 10325,
+      "total": 20767,
+      "ms": 4.98,
+      "breakdown": {
+        "signatures": 6618,
+        "certificates": 11085,
+        "key_exchange": 2368,
+        "framing": 696
+      },
+      "radio": {
+        "wifi": {
+          "frames": 16,
+          "airtime_s": null
+        },
+        "ble": {
+          "frames": 86,
+          "airtime_s": null
+        },
+        "lora7": {
+          "frames": 87,
+          "airtime_s": 34.3
+        },
+        "lora12": {
+          "frames": 408,
+          "airtime_s": 1138.6
+        }
+      }
+    },
+    {
+      "id": "wl-signed",
+      "name": "WardLink signed",
+      "detail": "ML-DSA-65 signatures + X25519/ML-KEM-768, enrolled raw keys",
+      "pq_confidentiality": true,
+      "pq_authentication": true,
+      "up": 4549,
+      "down": 4429,
+      "total": 8978,
+      "ms": 3.345,
+      "sensor_ms": 1.781,
+      "gateway_ms": 1.564,
+      "breakdown": {
+        "signatures": 6618,
+        "certificates": 0,
+        "key_exchange": 2336,
+        "framing": 24
+      },
+      "sensor_ops": [
+        "ML-KEM keygen",
+        "ML-DSA sign",
+        "ML-DSA verify",
+        "ML-KEM decaps",
+        "X25519 \u00d71"
+      ],
+      "sensor_keys": "ML-DSA-65 seed, 32 B (4,032 B once expanded for signing)",
+      "sensor_code": "ML-DSA-65 and ML-KEM-768",
+      "radio": {
+        "wifi": {
+          "frames": 8,
+          "airtime_s": null
+        },
+        "ble": {
+          "frames": 38,
+          "airtime_s": null
+        },
+        "lora7": {
+          "frames": 38,
+          "airtime_s": 14.9
+        },
+        "lora12": {
+          "frames": 177,
+          "airtime_s": 493.0
+        }
+      }
+    },
+    {
+      "id": "wl-lean",
+      "name": "WardLink lean",
+      "detail": "No signatures: ML-KEM-768 + X25519 to enrolled keys (KEMTLS / PQNoise KK idea)",
+      "pq_confidentiality": true,
+      "pq_authentication": true,
+      "up": 2320,
+      "down": 2224,
+      "total": 4544,
+      "ms": 1.293,
+      "sensor_ms": 0.725,
+      "gateway_ms": 0.568,
+      "breakdown": {
+        "signatures": 0,
+        "certificates": 0,
+        "key_exchange": 4512,
+        "framing": 32
+      },
+      "sensor_ops": [
+        "ML-KEM keygen",
+        "ML-KEM encaps",
+        "ML-KEM decaps \u00d72",
+        "X25519 \u00d73"
+      ],
+      "sensor_keys": "ML-KEM-768 seed 64 B + X25519 key 32 B",
+      "sensor_code": "ML-KEM-768 only, no signature code",
+      "radio": {
+        "wifi": {
+          "frames": 4,
+          "airtime_s": null
+        },
+        "ble": {
+          "frames": 20,
+          "airtime_s": null
+        },
+        "lora7": {
+          "frames": 20,
+          "airtime_s": 7.6
+        },
+        "lora12": {
+          "frames": 90,
+          "airtime_s": 249.9
+        }
+      }
+    }
+  ],
+  "record": {
+    "binary_sealed": 40,
+    "json_sealed": 189,
+    "binary_radio": {
+      "wifi": {
+        "frames": 1,
+        "airtime_s": null
+      },
+      "ble": {
+        "frames": 1,
+        "airtime_s": null
+      },
+      "lora7": {
+        "frames": 1,
+        "airtime_s": 0.1
+      },
+      "lora12": {
+        "frames": 1,
+        "airtime_s": 2.5
+      }
+    },
+    "json_radio": {
+      "wifi": {
+        "frames": 1,
+        "airtime_s": null
+      },
+      "ble": {
+        "frames": 1,
+        "airtime_s": null
+      },
+      "lora7": {
+        "frames": 1,
+        "airtime_s": 0.3
+      },
+      "lora12": {
+        "frames": 4,
+        "airtime_s": 10.7
+      }
+    }
+  }
+}

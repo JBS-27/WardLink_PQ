@@ -1,6 +1,7 @@
 """Field behaviour: delivery guarantees, lifecycle, sensor faults, standards conformance."""
 
 import hashlib
+import io
 import json
 import tempfile
 import threading
@@ -150,6 +151,36 @@ class SensorFaultTest(unittest.TestCase):
         world = World(seed=1)
         world.resume(61.0, int((NOON + timedelta(hours=3)).timestamp()))
         self.assertEqual(world.step().tank_time, int((NOON + timedelta(hours=3, minutes=10)).timestamp()))
+
+
+class ServerlessTest(unittest.TestCase):
+    def call(self, app, method, path):
+        environ = {"REQUEST_METHOD": method, "PATH_INFO": path, "CONTENT_LENGTH": "0", "wsgi.input": io.BytesIO(b"")}
+        captured = {}
+
+        def start(status, headers):
+            captured["status"] = status
+
+        body = b"".join(app(environ, start))
+        return captured["status"], body
+
+    def test_vercel_entry_serves_page_and_advances_the_tank(self) -> None:
+        import app as entry
+        from wardlink import serverless
+
+        with tempfile.TemporaryDirectory() as tmp:
+            serverless._demo = serverless.ServerlessDemo(data_dir=Path(tmp), pace=0.05)
+            status, page = self.call(entry.app, "GET", "/")
+            self.assertTrue(status.startswith("200") and b"WardLink" in page)
+            for _ in range(4):
+                time.sleep(0.06)
+                status, body = self.call(entry.app, "GET", "/api/state")
+            state = json.loads(body)
+            self.assertTrue(state["serverless"])
+            self.assertGreaterEqual(state["reading"]["seq"], 2)
+            status, body = self.call(entry.app, "POST", "/api/rigor/run")
+            self.assertTrue(status.startswith("409"))
+            serverless._demo = None
 
 
 class SuiteTest(unittest.TestCase):

@@ -167,7 +167,7 @@ function drawScene(r) {
 function showPart(name) {
   const part = PARTS[name];
   if (!part) return;
-  $$("#unit .part").forEach((node) => node.classList.toggle("selected", node.dataset.part === name));
+  $$("#unit-drawing .part").forEach((node) => node.classList.toggle("selected", node.dataset.part === name));
   setText("#part-kicker", part.kicker);
   setText("#part-title", part.title);
   setText("#part-what", part.what);
@@ -177,7 +177,7 @@ function showPart(name) {
 }
 
 function highlight(name) {
-  $$("#unit .part").forEach((node) => node.classList.toggle("active", node.dataset.part === name));
+  $$("#unit-drawing .part").forEach((node) => node.classList.toggle("active", node.dataset.part === name));
 }
 
 function drawCycleList() {
@@ -316,7 +316,7 @@ export function init() {
     svgEl("rect", { class: "byte", x: (index % 5) * 14, y: Math.floor(index / 5) * 9, width: 12, height: 7 }, bytes);
   }
   drawCycleList();
-  $$("#unit .part").forEach((node) => {
+  $$("#unit-drawing .part").forEach((node) => {
     node.addEventListener("click", () => {
       selected = node.dataset.part;
       following = false;

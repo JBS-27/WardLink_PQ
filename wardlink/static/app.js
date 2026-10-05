@@ -20,6 +20,7 @@ function header(snap) {
   const reading = snap.reading;
   setText("#site-title", snap.device ? snap.device.label : "Ward 4 overhead tank");
   setText("#tank-clock", reading ? reading.tank_clock : "—");
+  setText("#host-note", snap.serverless ? "Serverless demo: the tank advances while this page is open and restarts when the host sleeps" : "");
   const state = $("#link-state");
   const delivery = snap.delivery || {};
   if (snap.clone) {

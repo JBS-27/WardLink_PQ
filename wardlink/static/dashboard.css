@@ -120,7 +120,7 @@ main > .panel { margin: 14px 28px 0; }
 .panel-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
 
 .machine-panel { padding: 10px 10px 12px; }
-#machine, #unit { width: 100%; height: auto; display: block; }
+#machine, #unit-drawing { width: 100%; height: auto; display: block; }
 
 /* Shared drawing parts */
 .plate { fill: #151a1e; stroke: #3c444c; }
@@ -181,7 +181,7 @@ main > .panel { margin: 14px 28px 0; }
 }
 .tag.dim { fill: #8f897f; letter-spacing: 0.02em; }
 .tag.tiny { font-size: 10px; }
-.probe-tag { fill: #f1ead9; }
+.probe-tag { fill: #f1ead9; text-anchor: middle; }
 .bay { fill: var(--brass); font-size: 14px; }
 
 #machine .zone { transition: opacity 240ms ease; }

@@ -25,7 +25,7 @@ function drawStats() {
   const failed = report.total - report.passed;
   const stats = [
     { value: `${report.passed} / ${report.total}`, text: failed ? `${failed} scenario(s) failed; see the red rows` : "field scenarios passed", lead: failed === 0 },
-    { value: `${report.seconds} s`, text: "for the whole suite on this laptop" },
+    { value: `${report.seconds} s`, text: "to run the whole suite" },
     { value: String(categories.size), text: "categories, from NIST vectors to a 20-tank load test" },
     { value: report.finished_at.replace(" UTC", ""), text: `last run (UTC) · ${report.machine || ""}` },
   ];
@@ -79,8 +79,10 @@ async function load() {
   const data = await (await fetch("/api/rigor")).json();
   running = data.running;
   if (data.report) report = data.report;
-  $("#rigor-run").disabled = running;
-  setText("#rigor-status", running ? "Running all scenarios against throwaway gateways… about 20 seconds." : report ? "" : "No saved run yet.");
+  const live = data.live_runs !== false;
+  $("#rigor-run").disabled = running || !live;
+  if (!live) setText("#rigor-status", data.note || "Live runs are not available on this host.");
+  else setText("#rigor-status", running ? "Running all scenarios against throwaway gateways… about 20 seconds." : report ? "" : "No saved run yet.");
   drawStats();
   drawResults();
   if (running && !polling) {

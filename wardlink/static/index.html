@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WardLink PQ · Section office</title>
+  <link rel="stylesheet" href="/dashboard.css">
+</head>
+<body>
+  <header class="top">
+    <div>
+      <p class="kicker">Section office · WardLink PQ</p>
+      <h1 id="site-title">Ward 4 overhead tank</h1>
+    </div>
+    <div class="top-meta">
+      <p><span class="muted">Tank time</span> <span id="tank-clock">—</span> <span class="muted small">time-lapse, 1 reading = 10 min</span></p>
+      <p><span class="muted">Office</span> <span id="clock">—</span></p>
+      <p id="link-state" class="state wait">Sensor offline</p>
+    </div>
+  </header>
+
+  <nav class="tabs" id="tabs">
+    <a href="#live" data-view="live">Live system</a>
+    <a href="#unit" data-view="unit">Sensor unit</a>
+    <a href="#lab" data-view="lab">Handshake lab</a>
+    <a href="#bench" data-view="bench">Attack bench</a>
+    <a href="#rigor" data-view="rigor">Rigor</a>
+  </nav>
+
+  <!-- LIVE SYSTEM ------------------------------------------------------------>
+  <main class="view" id="view-live">
+    <div class="rail" id="rail">
+      <button type="button" data-stage="sensing">1 · Sensing</button>
+      <button type="button" data-stage="securing">2 · Securing</button>
+      <button type="button" data-stage="transit">3 · Transmit</button>
+      <button type="button" data-stage="verify">4 · Receive</button>
+      <button type="button" data-stage="action">5 · Action</button>
+    </div>
+    <p class="narration" id="narration">Waiting for the sensor. Each verified reading drives the machine from left to right.</p>
+
+    <div class="layout">
+      <div class="stack">
+      <section class="panel machine-panel" aria-label="Live cutaway of tank, sensor board, sealed path, gateway checks and action">
+        <svg id="machine" viewBox="0 0 1080 500" role="img">
+          <title>Tank, sensor board, sealed capsule, gateway checks and action flag</title>
+          <defs>
+            <clipPath id="chamber-clip"><rect x="48" y="96" width="140" height="260"/></clipPath>
+          </defs>
+          <rect class="plate" x="8" y="8" width="1064" height="484" rx="12"/>
+
+          <g id="g-tank" class="zone">
+            <text class="bay" x="28" y="42">1 · SENSING</text>
+            <rect class="housing" x="24" y="56" width="196" height="400" rx="8"/>
+            <circle class="bolt" cx="40" cy="72" r="3.5"/><circle class="bolt" cx="204" cy="72" r="3.5"/>
+            <circle class="bolt" cx="40" cy="440" r="3.5"/><circle class="bolt" cx="204" cy="440" r="3.5"/>
+            <rect class="chamber" x="48" y="96" width="140" height="260"/>
+            <g clip-path="url(#chamber-clip)">
+              <rect id="water" class="water" x="48" y="226" width="140" height="130"/>
+              <line id="surface" class="surface" x1="48" y1="226" x2="188" y2="226"/>
+              <g id="ping" opacity="0">
+                <path class="ping-arc" d="M96 0 Q116 12 136 0"/>
+                <path class="ping-arc" d="M90 -10 Q116 6 142 -10"/>
+              </g>
+              <g id="echo" opacity="0">
+                <path class="echo-arc" d="M96 0 Q116 -12 136 0"/>
+              </g>
+            </g>
+            <rect class="transducer" x="98" y="96" width="36" height="12" rx="3"/>
+            <line class="probe-cable" x1="154" y1="96" x2="154" y2="300"/>
+            <line class="probe-cable" x1="166" y1="96" x2="166" y2="306"/>
+            <line class="probe-cable" x1="178" y1="96" x2="178" y2="312"/>
+            <rect id="probe-t" class="probe" x="150" y="300" width="8" height="26" rx="2"/>
+            <rect id="probe-d" class="probe" x="162" y="306" width="8" height="26" rx="2"/>
+            <rect id="probe-p" class="probe" x="174" y="312" width="8" height="26" rx="2"/>
+            <text class="tag" x="40" y="384">ULTRASONIC</text>
+            <text class="tag" x="40" y="402">TURBIDITY · TDS · pH</text>
+            <text id="live-echo" class="tag dim" x="40" y="438">echo — ms</text>
+          </g>
+
+          <path id="cable" class="cable" d="M134 90 L210 90 L210 270 L268 270"/>
+          <g id="pulses"></g>
+
+          <g id="g-sensor" class="zone">
+            <text class="bay" x="236" y="42">2 · SECURING</text>
+            <rect class="housing" x="228" y="120" width="176" height="250" rx="8"/>
+            <circle class="bolt" cx="244" cy="136" r="3.5"/><circle class="bolt" cx="388" cy="136" r="3.5"/>
+            <text class="tag" x="244" y="160">SENSOR BOARD</text>
+            <rect class="pcb" x="326" y="172" width="64" height="88" rx="3"/>
+            <rect class="chip" x="340" y="186" width="36" height="36" rx="2"/>
+            <text class="chip-label" x="358" y="209">S3</text>
+            <path class="trace" d="M334 236 h48 M334 246 h30"/>
+            <g transform="translate(296 270)">
+              <g id="ratchet">
+                <polygon class="ratchet-shape" points="0.0,-19.0 0.0,-28.0 9.5,-16.5 14.0,-24.2 16.5,-9.5 24.2,-14.0 19.0,0.0 28.0,0.0 16.5,9.5 24.2,14.0 9.5,16.5 14.0,24.2 0.0,19.0 0.0,28.0 -9.5,16.5 -14.0,24.2 -16.5,9.5 -24.2,14.0 -19.0,0.0 -28.0,0.0 -16.5,-9.5 -24.2,-14.0 -9.5,-16.5 -14.0,-24.2"/>
+                <circle class="hub" r="6"/>
+              </g>
+              <path id="pawl" class="pawl" d="M30 -44 L6 -28 L12 -24 L34 -38 Z"/>
+            </g>
+            <g id="key" transform="translate(352 300)">
+              <circle class="key-bow" r="9"/>
+              <rect class="key-shaft" x="8" y="-2.5" width="30" height="5"/>
+              <rect class="key-shaft" x="28" y="2" width="4" height="7"/>
+              <rect class="key-shaft" x="20" y="2" width="4" height="5"/>
+            </g>
+            <text class="tag" x="244" y="342">KEY RATCHET</text>
+            <text id="ratchet-count" class="tag dim" x="244" y="360">reading key —</text>
+          </g>
+
+          <g id="g-rail" class="zone">
+            <text class="bay" x="430" y="42">3 · TRANSMIT</text>
+            <rect class="rail-body" x="412" y="234" width="300" height="72" rx="36"/>
+            <line class="rail-slot" x1="436" y1="270" x2="688" y2="270"/>
+            <text class="tag" x="436" y="222">SEALED CAPSULE ONLY</text>
+            <g id="capsule" transform="translate(424 252)">
+              <rect class="capsule-body" width="92" height="36" rx="12"/>
+              <text id="capsule-label" class="capsule-label" x="46" y="23">40 B sealed</text>
+            </g>
+            <text id="capsule-hex" class="hex" x="436" y="336"></text>
+            <line class="return-rail" x1="436" y1="408" x2="712" y2="408"/>
+            <text class="tag" x="436" y="392">RETURN NOTE</text>
+            <g id="ack-capsule" transform="translate(680 394)" opacity="0">
+              <rect class="ack-body" width="70" height="26" rx="9"/>
+              <text class="capsule-label" x="35" y="17">seen</text>
+            </g>
+          </g>
+
+          <g id="g-gateway" class="zone">
+            <text class="bay" x="736" y="42">4 · RECEIVE</text>
+            <rect class="housing" x="724" y="96" width="196" height="320" rx="8"/>
+            <circle class="bolt" cx="740" cy="112" r="3.5"/><circle class="bolt" cx="904" cy="112" r="3.5"/>
+            <text class="tag" x="744" y="140">GATEWAY CHECKS</text>
+            <g class="check" id="chk-seal" transform="translate(760 182)">
+              <g class="spin"><polygon class="gear-shape" points="-2.9,-10.6 -1.1,-17.0 1.1,-17.0 2.9,-10.6 3.9,-10.3 9.1,-14.4 10.8,-13.1 8.6,-6.9 9.2,-6.0 15.8,-6.3 16.5,-4.2 11.0,-0.6 11.0,0.6 16.5,4.2 15.8,6.3 9.2,6.0 8.6,6.9 10.8,13.1 9.1,14.4 3.9,10.3 2.9,10.6 1.1,17.0 -1.1,17.0 -2.9,10.6 -3.9,10.3 -9.1,14.4 -10.8,13.1 -8.6,6.9 -9.2,6.0 -15.8,6.3 -16.5,4.2 -11.0,0.6 -11.0,-0.6 -16.5,-4.2 -15.8,-6.3 -9.2,-6.0 -8.6,-6.9 -10.8,-13.1 -9.1,-14.4 -3.9,-10.3"/></g>
+              <circle class="hub" r="4"/>
+              <text class="check-label" x="28" y="-3">SEAL</text>
+              <text class="check-sub" x="28" y="13">tag matches the key</text>
+              <circle class="lamp" cx="140" cy="0" r="8"/>
+            </g>
+            <g class="check" id="chk-order" transform="translate(760 252)">
+              <g class="spin"><polygon class="gear-shape" points="-2.9,-10.6 -1.1,-17.0 1.1,-17.0 2.9,-10.6 3.9,-10.3 9.1,-14.4 10.8,-13.1 8.6,-6.9 9.2,-6.0 15.8,-6.3 16.5,-4.2 11.0,-0.6 11.0,0.6 16.5,4.2 15.8,6.3 9.2,6.0 8.6,6.9 10.8,13.1 9.1,14.4 3.9,10.3 2.9,10.6 1.1,17.0 -1.1,17.0 -2.9,10.6 -3.9,10.3 -9.1,14.4 -10.8,13.1 -8.6,6.9 -9.2,6.0 -15.8,6.3 -16.5,4.2 -11.0,0.6 -11.0,-0.6 -16.5,-4.2 -15.8,-6.3 -9.2,-6.0 -8.6,-6.9 -10.8,-13.1 -9.1,-14.4 -3.9,-10.3"/></g>
+              <circle class="hub" r="4"/>
+              <text class="check-label" x="28" y="-3">ORDER</text>
+              <text class="check-sub" x="28" y="13">next key, not a copy</text>
+              <circle class="lamp" cx="140" cy="0" r="8"/>
+            </g>
+            <g class="check" id="chk-physics" transform="translate(760 322)">
+              <g class="spin"><polygon class="gear-shape" points="-2.9,-10.6 -1.1,-17.0 1.1,-17.0 2.9,-10.6 3.9,-10.3 9.1,-14.4 10.8,-13.1 8.6,-6.9 9.2,-6.0 15.8,-6.3 16.5,-4.2 11.0,-0.6 11.0,0.6 16.5,4.2 15.8,6.3 9.2,6.0 8.6,6.9 10.8,13.1 9.1,14.4 3.9,10.3 2.9,10.6 1.1,17.0 -1.1,17.0 -2.9,10.6 -3.9,10.3 -9.1,14.4 -10.8,13.1 -8.6,6.9 -9.2,6.0 -15.8,6.3 -16.5,4.2 -11.0,0.6 -11.0,-0.6 -16.5,-4.2 -15.8,-6.3 -9.2,-6.0 -8.6,-6.9 -10.8,-13.1 -9.1,-14.4 -3.9,-10.3"/></g>
+              <circle class="hub" r="4"/>
+              <text class="check-label" x="28" y="-3">PHYSICS</text>
+              <text class="check-sub" x="28" y="13">the tank can do this</text>
+              <circle class="lamp" cx="140" cy="0" r="8"/>
+            </g>
+            <g id="hatch" transform="translate(756 372)"><rect class="hatch-body" width="128" height="14" rx="3"/></g>
+            <text class="tag" x="744" y="404">REFUSED CAPSULES DROP</text>
+          </g>
+
+          <g id="g-flag" class="zone">
+            <text class="bay" x="944" y="42">5 · ACTION</text>
+            <line class="pole" x1="960" y1="110" x2="960" y2="440"/>
+            <rect class="pole-base" x="944" y="436" width="32" height="10" rx="2"/>
+            <g id="flag" transform="translate(960 150)">
+              <polygon id="flag-cloth" class="flag-cloth" points="4,0 102,-14 102,34 4,22"/>
+              <text id="flag-word" class="flag-label" x="54" y="16">LOG</text>
+            </g>
+          </g>
+        </svg>
+        <ul class="legend">
+          <li><i class="swatch water"></i> Water the ultrasonic pulse bounces off</li>
+          <li><i class="swatch brass"></i> Sealed capsule, unreadable on the path</li>
+          <li><i class="swatch alarm"></i> A red lamp or flag means the office must act</li>
+        </ul>
+      </section>
+      <section class="panel log-panel">
+        <p class="kicker">Office log</p>
+        <ol id="log"></ol>
+      </section>
+      </div>
+
+      <aside class="side">
+        <section class="panel reading">
+          <p class="kicker">Verified reading</p>
+          <div class="level-row">
+            <p class="level"><span id="level">—</span><span class="unit">%</span></p>
+            <svg class="spark" viewBox="0 0 200 72" aria-label="Tank level over the last day of readings">
+              <polyline id="spark" points=""></polyline>
+            </svg>
+          </div>
+          <dl class="readings">
+            <div><dt>Turbidity</dt><dd id="r-ntu">—</dd><dd class="band" id="r-ntu-band"></dd></div>
+            <div><dt>TDS</dt><dd id="r-tds">—</dd><dd class="band" id="r-tds-band"></dd></div>
+            <div><dt>pH</dt><dd id="r-ph">—</dd><dd class="band" id="r-ph-band"></dd></div>
+            <div><dt>Water · air</dt><dd id="r-temp">—</dd><dd class="band"></dd></div>
+          </dl>
+          <p id="times" class="muted small"></p>
+        </section>
+
+        <section class="order" id="order">
+          <p class="order-kicker" id="order-kicker">Work order</p>
+          <h2 id="order-title">Waiting for the sensor</h2>
+          <p id="order-reason">The office shows a reading only after the gateway has checked its seal, its order and its physics.</p>
+          <ol id="order-steps"></ol>
+          <div class="order-actions">
+            <button type="button" id="seen" disabled>Mark seen</button>
+            <button type="button" id="replay-cycle" class="secondary" disabled>Replay this cycle</button>
+          </div>
+        </section>
+
+        <section class="panel channel">
+          <p class="kicker">Channel</p>
+          <dl>
+            <div><dt>Session</dt><dd id="c-session">—</dd></div>
+            <div><dt>Handshake</dt><dd id="c-handshake">—</dd></div>
+            <div><dt>Reading key</dt><dd id="c-key">—</dd></div>
+            <div><dt>Capsule</dt><dd id="c-capsule">—</dd></div>
+            <div><dt>Delivery</dt><dd id="c-delivery">—</dd></div>
+            <div><dt>Board outbox</dt><dd id="c-outbox">—</dd></div>
+          </dl>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <!-- SENSOR UNIT ------------------------------------------------------------>
+  <main class="view" id="view-unit" hidden>
+    <p class="narration" id="unit-narration">The sensor unit on the tank roof. Click any part to see what it is, how it works, and what it does for security.</p>
+    <div class="layout unit-layout">
+      <section class="panel machine-panel">
+        <svg id="unit" viewBox="0 0 960 620" role="img">
+          <title>Exploded view of the sensor unit on the tank roof</title>
+          <defs>
+            <clipPath id="tank-clip"><rect x="24" y="384" width="912" height="220"/></clipPath>
+            <pattern id="hatch-pattern" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+              <line x1="0" y1="0" x2="0" y2="8" class="hatch-line"/>
+            </pattern>
+          </defs>
+          <rect class="plate" x="8" y="8" width="944" height="604" rx="12"/>
+
+          <g id="u-sun" opacity="0">
+            <circle class="sun" cx="890" cy="62" r="18"/>
+            <path class="sun-ray" d="M890 30 v-10 M890 94 v10 M858 62 h-10 M922 62 h10 M867 39 l-7 -7 M913 85 l7 7 M867 85 l-7 7 M913 39 l7 -7"/>
+          </g>
+
+          <g class="part" data-part="solar">
+            <line class="mast" x1="570" y1="112" x2="570" y2="360"/>
+            <polygon class="solar" points="452,104 688,104 668,40 472,40"/>
+            <path class="solar-grid" d="M511 40 L501 104 M550 40 L544 104 M590 40 L590 104 M629 40 L636 104 M462 72 L678 72"/>
+            <text class="tag" x="452" y="128">SOLAR PANEL</text>
+          </g>
+
+          <g class="part" data-part="antenna">
+            <line class="whip" x1="384" y1="150" x2="384" y2="58"/>
+            <circle class="whip-tip" cx="384" cy="56" r="5"/>
+            <text class="tag" x="396" y="64">RADIO</text>
+          </g>
+          <g id="u-frags"></g>
+
+          <g id="u-lid">
+            <rect class="lid" x="56" y="110" width="348" height="18" rx="4"/>
+            <path class="explode" d="M66 130 V148 M394 130 V148"/>
+          </g>
+          <rect class="enclosure" x="56" y="150" width="348" height="182" rx="6"/>
+          <text class="tag" x="68" y="146">IP65 ENCLOSURE</text>
+
+          <g class="part" data-part="mcu">
+            <rect class="pcb" x="72" y="166" width="190" height="72" rx="4"/>
+            <rect class="module" x="84" y="174" width="70" height="56" rx="3"/>
+            <path class="trace" d="M88 180 h10 v8 h10 v-8 h10 v8 h10 v-8 h10"/>
+            <text class="chip-label" x="119" y="212">ESP32-S3</text>
+            <circle id="u-led" class="led" cx="246" cy="178" r="4"/>
+            <g transform="translate(214 208)">
+              <g id="u-ratchet">
+                <polygon class="ratchet-shape" points="0.0,-19.0 0.0,-28.0 9.5,-16.5 14.0,-24.2 16.5,-9.5 24.2,-14.0 19.0,0.0 28.0,0.0 16.5,9.5 24.2,14.0 9.5,16.5 14.0,24.2 0.0,19.0 0.0,28.0 -9.5,16.5 -14.0,24.2 -16.5,9.5 -24.2,14.0 -19.0,0.0 -28.0,0.0 -16.5,-9.5 -24.2,-14.0 -9.5,-16.5 -14.0,-24.2" transform="scale(0.72)"/>
+                <circle class="hub" r="4"/>
+              </g>
+            </g>
+          </g>
+
+          <g class="part" data-part="isolator">
+            <rect class="pcb blue" x="276" y="166" width="114" height="72" rx="4"/>
+            <rect class="chip" x="290" y="182" width="24" height="24" rx="2"/>
+            <rect class="chip" x="324" y="182" width="24" height="24" rx="2"/>
+            <rect class="chip" x="358" y="182" width="24" height="24" rx="2"/>
+            <text class="tag tiny" x="290" y="226">ISOLATOR</text>
+          </g>
+
+          <g class="part" data-part="battery">
+            <rect class="cell" x="72" y="250" width="150" height="34" rx="16"/>
+            <rect class="cell-cap" x="222" y="259" width="8" height="16" rx="2"/>
+            <rect id="u-charge" class="charge" x="78" y="256" width="60" height="22" rx="10"/>
+            <rect class="pcb" x="240" y="248" width="74" height="40" rx="3"/>
+            <text class="tag tiny" x="248" y="272">CHARGER</text>
+            <text class="tag tiny" x="80" y="300">Li-ion 18650</text>
+          </g>
+
+          <g id="u-bytes" transform="translate(326 252)"></g>
+          <text class="tag tiny" x="326" y="300">20-BYTE RECORD</text>
+
+          <rect class="gland" x="214" y="332" width="32" height="14" rx="2"/>
+
+          <rect class="roof" x="20" y="360" width="920" height="24"/>
+          <rect x="20" y="360" width="920" height="24" fill="url(#hatch-pattern)"/>
+          <text class="tag" x="28" y="352">TANK ROOF</text>
+
+          <rect class="tank-inside" x="24" y="384" width="912" height="220"/>
+          <path class="cable" d="M230 346 V392 H470 M470 392 H514 M514 392 H620 V538 M620 392 H690 V528 M690 392 H760 V520 M760 392 H830 V530"/>
+          <g clip-path="url(#tank-clip)">
+            <rect id="u-water" class="water" x="24" y="470" width="912" height="134"/>
+            <line id="u-surface" class="surface" x1="24" y1="470" x2="936" y2="470"/>
+            <g id="u-ping" opacity="0">
+              <path class="ping-arc" d="M446 0 Q470 14 494 0"/>
+              <path class="ping-arc" d="M438 -12 Q470 6 502 -12"/>
+            </g>
+            <g id="u-echo" opacity="0"><path class="echo-arc" d="M446 0 Q470 -14 494 0"/></g>
+          </g>
+
+          <g class="part" data-part="ultrasonic">
+            <rect class="transducer" x="448" y="384" width="44" height="14" rx="3"/>
+            <circle class="transducer-face" cx="470" cy="398" r="8"/>
+            <text class="tag" x="420" y="420">ULTRASONIC</text>
+          </g>
+          <g class="part" data-part="airtemp">
+            <rect class="probe" x="508" y="386" width="12" height="10" rx="2"/>
+            <text class="tag tiny" x="500" y="408">AIR °C</text>
+          </g>
+
+          <g class="part" data-part="turbidity">
+            <path class="probe-body" d="M604 538 h32 v54 h-10 v-22 h-12 v22 h-10 z"/>
+            <line id="u-beam" class="beam" x1="614" y1="580" x2="626" y2="580"/>
+            <g id="u-particles"></g>
+            <text class="tag tiny probe-tag" x="642" y="566">TURBIDITY</text>
+          </g>
+          <g class="part" data-part="tds">
+            <rect class="probe-body" x="682" y="528" width="16" height="50" rx="3"/>
+            <line class="pin" x1="686" y1="578" x2="686" y2="592"/>
+            <line class="pin" x1="694" y1="578" x2="694" y2="592"/>
+            <path id="u-ac" class="ac" d="M686 586 l2 -3 l2 6 l2 -6 l2 3" opacity="0"/>
+            <text class="tag tiny probe-tag" x="704" y="560">TDS</text>
+          </g>
+          <g class="part" data-part="ph">
+            <rect class="probe-body" x="752" y="520" width="16" height="56" rx="3"/>
+            <circle id="u-bulb" class="bulb" cx="760" cy="584" r="9"/>
+            <text class="tag tiny probe-tag" x="774" y="556">pH</text>
+          </g>
+          <g class="part" data-part="watertemp">
+            <rect class="probe-body thin" x="826" y="530" width="8" height="48" rx="3"/>
+            <text class="tag tiny probe-tag" x="840" y="560">WATER °C</text>
+          </g>
+          <text id="u-level-tag" class="tag" x="40" y="596">water —</text>
+        </svg>
+      </section>
+
+      <aside class="side">
+        <section class="panel">
+          <p class="kicker" id="part-kicker">Part</p>
+          <h2 class="part-title" id="part-title">Click a part</h2>
+          <p id="part-what" class="part-text">Every part on the drawing is clickable.</p>
+          <p id="part-how" class="part-text muted"></p>
+          <p id="part-security" class="part-text security-note"></p>
+          <p id="part-live" class="part-live"></p>
+        </section>
+        <section class="panel">
+          <p class="kicker">Radio for this drawing</p>
+          <div class="segmented" id="radio-pick">
+            <button type="button" data-link="wifi">Wi-Fi</button>
+            <button type="button" data-link="ble">BLE</button>
+            <button type="button" data-link="lora7">LoRa SF7</button>
+            <button type="button" data-link="lora12" class="active">LoRa SF12</button>
+          </div>
+          <p id="radio-note" class="muted small"></p>
+        </section>
+      </aside>
+    </div>
+
+    <section class="panel cycle-panel">
+      <div class="cycle-head">
+        <p class="kicker">Sampling cycle for one reading</p>
+        <div class="cycle-controls">
+          <button type="button" id="cycle-play" class="secondary-dark">Replay cycle</button>
+          <label class="muted small"><input type="checkbox" id="cycle-follow" checked> follow live readings</label>
+        </div>
+      </div>
+      <ol class="cycle" id="cycle"></ol>
+      <p class="cycle-text" id="cycle-text">Each new reading replays the cycle the board ran to produce it.</p>
+    </section>
+  </main>
+
+  <!-- HANDSHAKE LAB ---------------------------------------------------------->
+  <main class="view" id="view-lab" hidden>
+    <p class="narration">Every handshake below was run on this laptop. Each crate is 256 bytes on the wire; the colour shows what those bytes are for.</p>
+    <section class="stats" id="lab-stats"></section>
+    <section class="panel">
+      <div class="panel-head">
+        <p class="kicker">Handshake size, mutual authentication</p>
+        <ul class="legend inline" id="crate-legend"></ul>
+      </div>
+      <div id="crates"></div>
+      <p class="muted small" id="lab-source"></p>
+    </section>
+
+    <div class="layout two">
+      <section class="panel">
+        <p class="kicker">Live handshakes from the gateway</p>
+        <svg id="conveyor" viewBox="0 0 640 170" role="img" aria-label="Latest handshake bytes moving between sensor and gateway">
+          <rect class="housing" x="10" y="40" width="96" height="90" rx="6"/>
+          <text class="tag" x="22" y="64">SENSOR</text>
+          <rect class="housing" x="534" y="40" width="96" height="90" rx="6"/>
+          <text class="tag" x="546" y="64">GATEWAY</text>
+          <line class="belt" x1="110" y1="74" x2="530" y2="74"/>
+          <line class="belt" x1="110" y1="118" x2="530" y2="118"/>
+          <text class="tag tiny" x="118" y="64">HELLO →</text>
+          <text class="tag tiny" x="470" y="140">← WELCOME</text>
+          <g id="conveyor-crates"></g>
+          <text id="conveyor-label" class="tag" x="118" y="162"></text>
+        </svg>
+        <div class="order-actions dark">
+          <button type="button" id="rekey-lean" class="secondary-dark">Re-key now · lean</button>
+          <button type="button" id="rekey-signed" class="secondary-dark">Re-key now · signed</button>
+          <button type="button" id="conveyor-play" class="secondary-dark">Play last handshake</button>
+        </div>
+        <ol class="mini-log" id="handshake-log"></ol>
+      </section>
+      <section class="panel">
+        <p class="kicker">Radio cost of one handshake</p>
+        <div id="radio-table"></div>
+        <p class="kicker spaced">Radio cost of one reading</p>
+        <div id="record-table"></div>
+        <p class="muted small" id="radio-source"></p>
+      </section>
+    </div>
+  </main>
+
+  <!-- ATTACK BENCH ----------------------------------------------------------->
+  <main class="view" id="view-bench" hidden>
+    <p class="narration">Try to break it. Every attack runs against the live gateway and real ciphertext; the result comes back from the backend, not from a script.</p>
+    <div class="bench-grid">
+      <section>
+        <p class="kicker">On the wire</p>
+        <div class="cards" id="wire-cards"></div>
+      </section>
+      <section>
+        <p class="kicker">In the tank</p>
+        <div class="cards" id="tank-cards"></div>
+      </section>
+    </div>
+    <section class="panel">
+      <div class="panel-head">
+        <p class="kicker">Key ratchet tape, newest on the right</p>
+        <ul class="legend inline">
+          <li><i class="swatch brass"></i> sealed</li>
+          <li><i class="swatch alarm"></i> thief can read</li>
+          <li><i class="swatch steel"></i> new session after re-key</li>
+        </ul>
+      </div>
+      <svg id="tape" viewBox="0 0 1000 120" role="img" aria-label="Recent readings and which keys a thief holds"></svg>
+      <p class="muted small" id="tape-note">Steal the board to see which readings its memory can open.</p>
+    </section>
+    <section class="panel">
+      <p class="kicker">Which layer stops which attack</p>
+      <div id="matrix"></div>
+    </section>
+  </main>
+
+  <!-- RIGOR ------------------------------------------------------------------->
+  <main class="view" id="view-rigor" hidden>
+    <p class="narration">Forty field scenarios, from NIST conformance to power cuts, clones and twenty tanks at once. Each one builds its own gateway on a throwaway port, so running them never disturbs the live tank.</p>
+    <section class="stats" id="rigor-stats"></section>
+    <div class="rigor-bar">
+      <button type="button" id="rigor-run" class="secondary-dark">Run all scenarios now</button>
+      <p class="muted small" id="rigor-status"></p>
+    </div>
+    <div id="rigor-results"></div>
+  </main>
+
+  <script type="module" src="/app.js"></script>
+</body>
+</html>
